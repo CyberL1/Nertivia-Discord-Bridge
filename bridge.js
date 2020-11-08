@@ -21,9 +21,16 @@ for (const file of eventFiles) {
     const event = require(`./events/${file}`);
     const eventName = file.split('.')[0];
     Bridge.logger.log(`Loading event: ${eventName}`, "log");
-    Bridge[0].on(eventName, event.bind(null, Bridge));
-    Bridge[1].on(eventName, event.bind(null, Bridge));
+    Bridge.forEach(b => b.on(eventName, event.bind(null, Bridge)));
 };
 
-Bridge[0].login(Bridge.config.discord.token);
-Bridge[1].login(Bridge.config.nertivia.token);
+if (Bridge.config.discord.token == "[DISCORD BOT TOKEN]" || Bridge.config.nertivia.token == "[NERTIVIA BOT TOKEN]") {
+    Bridge.logger.log("Bridge is not configured properly. Exiting...", "error");
+    process.exit(1);
+};
+
+Bridge[0].login(Bridge.config.discord.token).then(Bridge[0].type = "Discord");
+Bridge[1].login(Bridge.config.nertivia.token).then(() => {
+    Bridge[1].type = "Nertivia";
+    Bridge.ready = true;
+});

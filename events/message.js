@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-
 module.exports = (Bridge, message) => {
   if (message.author.bot) return;
 

@@ -14,7 +14,7 @@ const config = {
 
   // Nertivia Settings
   nertivia: {
-    token: "[NERTIVIA TOKEN]",
+    token: "[NERTIVIA BOT TOKEN]",
     ownerID: "[NERTIVIA BOT OWNER ID]"
   }
 };

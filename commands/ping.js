@@ -6,5 +6,5 @@ exports.run = async (Bridge, message, args) => {
   
 exports.options = {
     name: "ping",
-    description: "Shows bot ping",
+    description: "Get bot ping",
 };
