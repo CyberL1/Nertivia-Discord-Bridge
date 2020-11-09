@@ -7,8 +7,6 @@ const Bridge = [ new Discord.Client(), new Nertivia.Client() ];
 Bridge.config = require('./config');
 Bridge.logger = require('./utils/Logger');
 Bridge.commands = new Discord.Collection();
-Bridge[0].type = "Discord"
-Bridge[1].type = "Nertivia";
 
 const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
@@ -26,10 +24,8 @@ for (const file of eventFiles) {
     Bridge.forEach(b => b.on(eventName, event.bind(null, Bridge)));
 };
 
-if (Bridge.config.discord.token == "[DISCORD BOT TOKEN]" || Bridge.config.nertivia.token == "[NERTIVIA BOT TOKEN]") {
-    Bridge.logger.log("Bridge is not configured properly. Exiting...", "error");
-    process.exit(1);
-};
-
-Bridge[0].login(Bridge.config.discord.token);
-Bridge[1].login(Bridge.config.nertivia.token).then(Bridge.ready = true);
+Bridge[0].login(Bridge.config.discord.token).then(Bridge[0].type = "Discord");
+Bridge[1].login(Bridge.config.nertivia.token).then(() => {
+    Bridge[1].type = "Nertivia";
+    Bridge.ready = true;
+});
